@@ -13,8 +13,8 @@ class ContatoController{
             $nome = $_POST["nome"];
             $telefone = $_POST["telefone"];
             $observacao = $_POST["observacao"];
+            $chmdid = $_SESSION["id_chamado"];
             
-
             $this->contato->cadastroContato($chmdid,$nome, $telefone, $observacao);
         }
     }

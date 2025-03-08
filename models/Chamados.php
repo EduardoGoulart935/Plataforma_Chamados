@@ -23,7 +23,7 @@ class Chamados{
         $query->bindParam(":status", $status);
     
         if($query->execute()) {
-            return $this->conn->lastInsertId(); # pegar o id do chamado para add 
+            $_SESSION["id_chamado"] = $this->conn->lastInsertId();
         }
         return false;
     }

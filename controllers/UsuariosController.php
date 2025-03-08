@@ -19,8 +19,8 @@ class UsuariosController{
             $cidade = $_POST['cidade'];
             $estado = $_POST['estado'];
 
-            if($this->usuario->cadastrar($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha) && 
-               $this->usuario->cadastrarendereco($cidade, $estado)) {
+            if($this->usuario->cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha) && 
+               $this->usuario->cadastroEndereco($cidade, $estado)) {
                 echo "Cadastro realizado com sucesso!";
             } else {
                 echo "Erro ao Cadastrar Usuário!";
@@ -44,10 +44,8 @@ class UsuariosController{
     }
 }
 
-    $controller = new UsuariosController();
-    if(isset($_POST["action"])) {
-        if($_POST["action"] === "cadastrar"){ $controller->cadastrarUsuarios();}
-        if($_POST["action"] === "login"){ $controller->login();}
-    }
-
-
+$controller = new UsuariosController();
+if(isset($_POST["action"])) {
+    if($_POST["action"] === "cadastrar"){ $controller->cadastrarUsuarios();}
+    if($_POST["action"] === "login"){ $controller->login();}
+}

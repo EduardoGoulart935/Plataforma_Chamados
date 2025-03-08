@@ -11,7 +11,7 @@ class Usuarios {
         $this->conn = $database->connect();
     }
    
-    public function cadastrar($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha) {
+    public function cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha) {
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
         $sql = "INSERT INTO {$this->table} (nome, data_nascimento, email, telefone, whatsapp, senha)
             VALUES(:nome, :data_nascimento, :email, :telefone, :whatsapp, :senha)";
@@ -25,7 +25,7 @@ class Usuarios {
         return $query->execute();
     }
 
-    public function cadastrarendereco($cidade, $estado) {
+    public function cadastroEndereco($cidade, $estado) {
         $sql = "INSERT INTO {$this->tablendereco} (cidade, estado) 
             VALUES (:cidade, :estado)";
         $query = $this->conn->prepare($sql);

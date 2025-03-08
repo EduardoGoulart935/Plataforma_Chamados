@@ -16,7 +16,7 @@ class Contatos{
                 VALUES (:nome, :telefone, :observacao";
         $query = $this->conn->prepare($sql);
         $query->bindParam("id_chamado", $chmdid);
-        $query->bindParam(":nome", $nome);
+        $query->bindParam( ":nome", $nome);
         $query->bindParam("telefone", $telefone);
         $query->bindParam("observacao", $observacao);
         return $query->execute();

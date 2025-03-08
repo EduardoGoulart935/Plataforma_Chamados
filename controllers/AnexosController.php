@@ -10,10 +10,11 @@ class AnexosController{
 
     public function cadastrarAnexos(){
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $nome_arquivo = $_POST["nome_arquivo"];
             $tipo_arquivo = $_POST["tipo_arquivo"];
+            $chmdid = $_SESSION["id_chamado"];
+            $arquivo = $_POST["arquivo"];
 
-            $this->anexo->cadastroAnexo($chmdid,$nome_arquivo, $tipo_arquivo);
+            $this->anexo->cadastroAnexo($chmdid,$arquivo, $tipo_arquivo);
         }
     }
 }
