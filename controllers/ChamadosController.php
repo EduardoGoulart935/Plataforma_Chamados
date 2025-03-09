@@ -14,9 +14,9 @@ class ChamadosController
     public function cadastrarChamados()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $descricao = $_POST["descricao"];
-            $tipo_incidente = $_POST["tipo_incidente"];
-            $id_usuario = $_SESSION["usuario_id"];
+            $descricao = htmlspecialchars($_POST["descricao"], ENT_QUOTES, 'UTF-8');
+            $tipo_incidente = htmlspecialchars($_POST["tipo_incidente"], ENT_QUOTES, 'UTF-8');
+            $id_usuario = htmlspecialchars($_SESSION["usuario_id"], ENT_QUOTES, 'UTF-8');
 
 
             $chmdid = $this->chamado->cadastroChamado($id_usuario, $descricao, $tipo_incidente);
@@ -27,6 +27,18 @@ class ChamadosController
             } else {
                 echo "Cadastro Falhou!";
             }
+        }
+    }
+
+    public function listarChamados()
+    {
+        $chamados = $this->chamado->selectChamados();
+
+        if ($chamados) {
+            header('Content-Type: application/json');
+            echo json_encode($chamados);
+        } else {
+            echo json_encode(["message" => "Nenhum chamado encontrado."]);
         }
     }
 }

@@ -2,20 +2,23 @@
 
 require_once "./models/Contatos.php";
 
-class ContatoController{
+class ContatosController
+{
     private $contato;
-    public function __construct(){
+    public function __construct()
+    {
         $this->contato = new Contatos();
     }
 
-    public function cadastrarContatos(){
+    public function cadastrarContatos()
+    {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $nome = $_POST["nome"];
-            $telefone = $_POST["telefone"];
-            $observacao = $_POST["observacao"];
+            $nome = htmlspecialchars($_POST["nome"], ENT_QUOTES, 'UTF-8');
+            $telefone = htmlspecialchars($_POST["telefone"], ENT_QUOTES, 'UTF-8');
+            $observacao = htmlspecialchars($_POST["observacao"], ENT_QUOTES, 'UTF-8');
             $chmdid = $_SESSION["id_chamado"];
-            
-            $this->contato->cadastroContato($chmdid,$nome, $telefone, $observacao);
+
+            $this->contato->cadastroContatos($chmdid, $nome, $telefone, $observacao);
         }
     }
 }
