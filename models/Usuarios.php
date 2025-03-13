@@ -1,11 +1,10 @@
 <?php
-require_once "./config/database.php";
+require_once __DIR__ . "/../config/Database.php";
 
 class Usuarios
 {
     private $conn;
     private $table = "usuarios";
-    private $tablendereco = "enderecos";
 
     public function __construct()
     {
@@ -13,11 +12,11 @@ class Usuarios
         $this->conn = $database->connect();
     }
 
-    public function cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha)
+    public function cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha, $cidade, $estado)
     {
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO {$this->table} (nome, data_nascimento, email, telefone, whatsapp, senha)
-            VALUES(:nome, :data_nascimento, :email, :telefone, :whatsapp, :senha)";
+        $sql = "INSERT INTO {$this->table} (nome, data_nascimento, email, telefone, whatsapp, senha, cidade, estado)
+            VALUES(:nome, :data_nascimento, :email, :telefone, :whatsapp, :senha, :cidade, :estado)";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":nome", $nome);
         $query->bindParam(":data_nascimento", $data_nascimento);
@@ -25,14 +24,6 @@ class Usuarios
         $query->bindParam(":telefone", $telefone);
         $query->bindParam(":whatsapp", $whatsapp);
         $query->bindParam(":senha", $senha_hash);
-        return $query->execute();
-    }
-
-    public function cadastroEndereco($cidade, $estado)
-    {
-        $sql = "INSERT INTO {$this->tablendereco} (cidade, estado) 
-            VALUES (:cidade, :estado)";
-        $query = $this->conn->prepare($sql);
         $query->bindParam(":cidade", $cidade);
         $query->bindParam(":estado", $estado);
         return $query->execute();
@@ -40,15 +31,17 @@ class Usuarios
 
     public function login($email, $senha)
     {
-        $sql = "SELECT email FROM {$this->table} WHERE $email = :email";
+        $sql = "SELECT id, email FROM {$this->table} WHERE email = :email";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":email", $email);
         $query->execute();
         $info = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($info && password_verify($senha, $info["senha"])) {
+            $_SESSION["id_usuario"] = $info["id"];
             return $info;
         }
-        return false;
+        echo"Deu errado!";
+        return false; 
     }
 }
