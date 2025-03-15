@@ -12,7 +12,7 @@ class UsuariosController
 
     public function cadastrarUsuarios()
     {
-        
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $nome =     htmlspecialchars($_POST["nome"], ENT_QUOTES, 'UTF-8');
             $data_nascimento = htmlspecialchars($_POST["data_nascimento"], ENT_QUOTES, 'UTF-8');
@@ -24,10 +24,11 @@ class UsuariosController
             $estado =   htmlspecialchars($_POST["estado"], ENT_QUOTES, 'UTF-8');;
 
             if (
-                $this->usuario->cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha, $cidade, $estado) 
-                
+                $this->usuario->cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha, $cidade, $estado)
+
             ) {
                 echo "Cadastro realizado com sucesso!";
+                
             } else {
                 echo "Erro ao Cadastrar Usuário!";
             }
@@ -36,14 +37,16 @@ class UsuariosController
 
     public function login()
     {
+            
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
             $senha = htmlspecialchars($_POST["senha"], ENT_QUOTES, 'UTF-8');
 
             $usuario = $this->usuario->login($email, $senha);
-            if ($usuario) {
-                $_SESSION["usuario_id"] = $usuario["id"];
-                echo "Login realizado com sucesso!";
+            if ($usuario) {    
+                header("Location: /Plataforma_Chamados/menu");
+                echo "Login bem-sucedido! ID do usuário: " . $_SESSION['id_usuario'];
+                exit; 
             } else {
                 echo "Credenciais inválidas";
             }
@@ -55,12 +58,9 @@ $controller = new UsuariosController();
 if (isset($_POST["action"])) {
     if ($_POST["action"] === "cadastrar") {
         $controller->cadastrarUsuarios();
-        header("Location: /Plataforma_Chamados/login");
+
     }
     if ($_POST["action"] === "login") {
         $controller->login();
-        header("Location: /Plataforma_Chamados/menu");
-        return $usuario;
-        
     }
 }

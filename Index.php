@@ -15,7 +15,7 @@ $controller = $url[1] ?? 'home'; // Define o primeiro parâmetro da URL como con
 $action = $url[2] ?? 'index'; // Define o segundo como ação
 $param = $url[3] ?? null; // Terceiro parâmetro pode ser um ID
 
-if ($url[1] !== "Plataforma_Chamados") {
+if ($url[1] == "/Plataforma_Chamados") {
     header("Location: /Plataforma_Chamados/pagInicial");
     exit;
 }
@@ -37,6 +37,10 @@ switch ($url[2] ?? 'pagInicial') {
 
     case 'menu':
         include 'views/menu.php';
+        break;
+
+    case 'logout':
+        include 'controllers/logout.php';
         break;
 
     default:

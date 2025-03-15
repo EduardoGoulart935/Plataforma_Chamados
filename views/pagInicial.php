@@ -5,8 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial - Chamados TI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .fade-in {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-slide {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+        }
+
+        .menu-slide.show {
+            transform: translateX(0);
+        }
+    </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 fade-in">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Chamados TI</a>
@@ -47,5 +68,21 @@
     </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.add("show");
+
+        let offcanvasMenu = document.getElementById("sidebarMenu");
+        offcanvasMenu.addEventListener("show.bs.offcanvas", function () {
+            offcanvasMenu.classList.add("menu-slide");
+            setTimeout(() => offcanvasMenu.classList.add("show"), 10);
+        });
+
+        offcanvasMenu.addEventListener("hide.bs.offcanvas", function () {
+            offcanvasMenu.classList.remove("show");
+            setTimeout(() => offcanvasMenu.classList.remove("menu-slide"), 300);
+        });
+    });
+</script>
 </body>
 </html>

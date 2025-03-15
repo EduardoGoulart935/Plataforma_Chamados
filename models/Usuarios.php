@@ -1,4 +1,5 @@
 <?php
+@session_start();
 require_once __DIR__ . "/../config/Database.php";
 
 class Usuarios
@@ -31,17 +32,17 @@ class Usuarios
 
     public function login($email, $senha)
     {
-        $sql = "SELECT id, email FROM {$this->table} WHERE email = :email";
+        $sql = "SELECT * FROM {$this->table} WHERE email = :email";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":email", $email);
         $query->execute();
-        $info = $query->fetchAll(PDO::FETCH_ASSOC);
+        $info = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($info && password_verify($senha, $info["senha"])) {
-            $_SESSION["id_usuario"] = $info["id"];
+        if ($info && password_verify($senha, $info['senha'])) {
+            $_SESSION['id_usuario'] = $info['id'];
             return $info;
         }
         echo"Deu errado!";
-        return false; 
+        return false;  
     }
 }
