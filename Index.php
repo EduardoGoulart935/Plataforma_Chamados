@@ -5,7 +5,6 @@ session_start();
 require_once __DIR__ . '/config/Database.php';
 require_once __DIR__ . '/controllers/ChamadosController.php';
 require_once __DIR__ . '/controllers/UsuariosController.php';
-require_once __DIR__ . '/controllers/AnexosController.php';
 
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT'] . '/Plataforma_Chamados/');
 
@@ -29,6 +28,10 @@ switch ($url[2] ?? 'pagInicial') {
 
     case 'login':
         include 'views/login.php';
+        break;
+
+    case 'cadChamados':
+        include 'views/cadChamados.php';
         break;
 
     case 'cadastro':

@@ -15,8 +15,8 @@ class Chamados
 
     public function cadastroChamado($descricao, $tipo_incidente, $id_usuario)
     {
-        $sql = "INSERT INTO {$this->tableChamados} (id_usuario, descricao, tipo_incidente, status)
-                VALUES (:id_usuario, :descricao, :tipo_incidente, :status)";
+        $sql = "INSERT INTO {$this->tableChamados} (id_usuario, descricao, tipo_incidente, status, data_abertura)
+                VALUES (:id_usuario, :descricao, :tipo_incidente, :status, NOW())";
         $query = $this->conn->prepare($sql);
         $status = "Aberto";
 

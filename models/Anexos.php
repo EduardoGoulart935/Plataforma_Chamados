@@ -12,19 +12,14 @@ class Anexos
         $this->conn = $database->connect();
     }
 
-    public function cadastroAnexo($chmdid, $tipoArquivo, $arquivo)
+    public function cadastroAnexo($chmdid, $arquivoNome, $arquivoTipo, $arquivoBase64)
     {
-        $nomeArquivo = $arquivo['name'];
-        $tipoArquivo = $arquivo['type'];
-        $dadosArquivo = file_get_contents($arquivo['tmp_name']);
-        $arquivoBase64 = base64_encode($dadosArquivo);
-
-        $sql = "INSERT INTO {$this->tableAnexos} (id_chamado, nome_arquivo, tipo_arquivo, dados_arquivo, data_upload) 
-                VALUES (:id_chamado, :nome_arquivo, :tipo_arquivo, :dados_arquivo, NOW())";
+        $sql = "INSERT INTO {$this->tableAnexos} (id_chamado, nome_arquivo, tipo_arquivo, arquivo_base64, data_upload) 
+                VALUES (:id_chamado, :nome_arquivo, :tipo_arquivo, :arquivo_base64, NOW())";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":id_chamado", $chmdid);
-        $query->bindParam("nome_arquivo", $nomeArquivo);
-        $query->bindParam(":tipo_arquivo", $tipoArquivo);
+        $query->bindParam("nome_arquivo", $arquivoNome);
+        $query->bindParam(":tipo_arquivo", $arquivoTipo);
         $query->bindParam(":arquivo_base64", $arquivoBase64);
         return $query->execute();
     }

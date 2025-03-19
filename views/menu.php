@@ -70,7 +70,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Criar Chamados</h5>
                         <p class="card-text">Registre novos chamados rapidamente.</p>
-                        <a href="#" class="btn btn-primary">Criar</a>
+                        <a href="cadChamados" class="btn btn-primary">Criar</a>
                     </div>
                 </div>
             </div>

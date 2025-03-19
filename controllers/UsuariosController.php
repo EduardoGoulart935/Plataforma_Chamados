@@ -28,7 +28,8 @@ class UsuariosController
 
             ) {
                 echo "Cadastro realizado com sucesso!";
-                
+
+                header("Location: /Plataforma_Chamados/login");
             } else {
                 echo "Erro ao Cadastrar Usuário!";
             }
