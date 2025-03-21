@@ -1,5 +1,5 @@
 <?php
-require_once "./config/database.php";
+require_once __DIR__ . "/../config/Database.php";
 
 class Contatos
 {
@@ -13,15 +13,15 @@ class Contatos
         $this->conn = $database->connect();
     }
 
-    public function cadastroContatos($chmdid, $nome, $telefone, $observacao)
+    public function cadastroContatos($id_chamado, $nome, $telefone, $observacao)
     {
         $sql = "INSERT INTO {$this->tableContato} (id_chamado, nome, telefone, observacao)
-                VALUES (:nome, :telefone, :observacao";
+                VALUES (:id_chamado, :nome, :telefone, :observacao";
         $query = $this->conn->prepare($sql);
-        $query->bindParam("id_chamado", $chmdid);
+        $query->bindParam(":id_chamado", $id_chamado);
         $query->bindParam(":nome", $nome);
-        $query->bindParam("telefone", $telefone);
-        $query->bindParam("observacao", $observacao);
+        $query->bindParam(":telefone", $telefone);
+        $query->bindParam(":observacao", $observacao);
         return $query->execute();
     }
 

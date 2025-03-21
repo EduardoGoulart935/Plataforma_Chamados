@@ -18,6 +18,7 @@
 
     <h2>Abrir Chamado</h2>
     <form action="./controllers/ChamadosController.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="cadastrarChamados">
 
         <div class="mb-3">
             <label for="descricao" class="form-label">Descrição do Problema</label>
@@ -42,8 +43,8 @@
             <label class="form-label">Contatos Telefônicos</label>
             <div id="contatos">
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" name="nome" placeholder="Nome" required>
-                    <input type="tel" class="form-control" name="telefone" placeholder="Telefone" required>
+                    <input type="text" class="form-control" name="nome"  placeholder="Nome" required>
+                    <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="Telefone" required>
                     <input type="text" class="form-control" name="observacao" placeholder="Observação">
                     <button type="button" class="btn btn-danger remove-contato">X</button>
                 </div>
@@ -60,9 +61,9 @@
             const div = document.createElement("div");
             div.classList.add("input-group", "mb-2");
             div.innerHTML = `
-                <input type="text" class="form-control" name="nome[]" placeholder="Nome" required>
-                <input type="tel" class="form-control" name="telefone[]" placeholder="Telefone" required>
-                <input type="text" class="form-control" name="observacao[]" placeholder="Observação">
+                <input type="text" class="form-control" name="nome" placeholder="Nome" required>
+                <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="Telefone" required>
+                <input type="text" class="form-control" name="observacao" placeholder="Observação">
                 <button type="button" class="btn btn-danger remove-contato">X</button>
             `;
             document.getElementById("contatos").appendChild(div);
@@ -76,6 +77,10 @@
             btn.addEventListener("click", function() {
                 this.parentElement.remove();
             });
+        });
+
+        $(document).ready(function() {
+            $('#telefone').inputmask('(99) 99999-9999');
         });
     </script>
 </body>
