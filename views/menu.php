@@ -80,7 +80,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Ver Chamados</h5>
                         <p class="card-text">Visualize os chamados cadastrados.</p>
-                        <a href="#" class="btn btn-primary">Ver</a>
+                        <a href="verChamados" class="btn btn-primary">Ver</a>
                     </div>
                 </div>
             </div>

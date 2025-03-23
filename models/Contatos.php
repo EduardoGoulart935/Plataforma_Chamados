@@ -5,7 +5,7 @@ class Contatos
 {
     private $conn;
 
-    private $tableContato = "contatos_chamados";
+    private $tableContato = "contatos_chamado";
 
     public function __construct()
     {
@@ -16,7 +16,7 @@ class Contatos
     public function cadastroContatos($id_chamado, $nome, $telefone, $observacao)
     {
         $sql = "INSERT INTO {$this->tableContato} (id_chamado, nome, telefone, observacao)
-                VALUES (:id_chamado, :nome, :telefone, :observacao";
+                VALUES (:id_chamado, :nome, :telefone, :observacao)";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":id_chamado", $id_chamado);
         $query->bindParam(":nome", $nome);
@@ -25,10 +25,11 @@ class Contatos
         return $query->execute();
     }
 
-    public function selectContatos()
+    public function selectContatos($id_chamado)
     {
-        $sql = "SELECT * FROM {$this->tableContato}";
+        $sql = "SELECT * FROM {$this->tableContato} WHERE id_chamado = :id_chamado";
         $query = $this->conn->prepare($sql);
+        $query->bindParam(':id_chamado', $id_chamado, PDO::PARAM_INT);
         $query->execute();
         $contato = $query->fetchAll(PDO::FETCH_ASSOC);
 

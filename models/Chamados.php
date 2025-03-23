@@ -14,7 +14,7 @@
             $this->conn = $database->connect();
         }
 
-        public function cadastroChamado($descricao, $tipo_incidente, $id_usuario)
+        public function cadastroChamado($id_usuario, $descricao, $tipo_incidente)
         {
             $sql = "INSERT INTO {$this->tableChamados} (id_usuario, descricao, tipo_incidente, status, data_abertura)
                     VALUES (:id_usuario, :descricao, :tipo_incidente, :status, NOW())";

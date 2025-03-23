@@ -10,35 +10,36 @@ define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT'] . '/Plataforma_Chamados/');
 
 $url = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-$controller = $url[1] ?? 'home'; // Define o primeiro parâmetro da URL como controlador
-$action = $url[2] ?? 'index'; // Define o segundo como ação
-$param = $url[3] ?? null; // Terceiro parâmetro pode ser um ID
-
-if ($url[1] == "/Plataforma_Chamados") {
-    header("Location: /Plataforma_Chamados/pagInicial");
+if ($url[1] !== "Plataforma_Chamados") {
+    header("Location: /Plataforma_Chamados/login");
     exit;
 }
 #$chamadosController = new ChamadosController();if ($action === 'abrir' && $_SERVER['REQUEST_METHOD'] === 'POST') {$chamadosController->
 #cadastrarChamados();} elseif ($action === 'listar') { $chamadosController->listarChamados(); } else {include 'view/erro404.php';}
 
-switch ($url[2] ?? 'pagInicial') {
-    case 'pagInicial':
-        include 'views/pagInicial.php';
-        break;
-
+switch ($url[2] ?? 'login') {
     case 'login':
+        validaLogin();
         include 'views/login.php';
         break;
 
-    case 'cadChamados':
-        include 'views/cadChamados.php';
-        break;
-
     case 'cadastro':
+        validaLogin();
         include 'views/cadastro.php';
         break;
 
+    case 'verChamados':
+        VerificaSessao();
+        include 'views/verChamados.php';
+        break;
+
+    case 'cadChamados':
+        VerificaSessao();
+        include 'views/cadChamados.php';
+        break;
+
     case 'menu':
+        VerificaSessao();
         include 'views/menu.php';
         break;
 
@@ -49,6 +50,22 @@ switch ($url[2] ?? 'pagInicial') {
     default:
         include 'views/erro404.php';
         exit();
+}
+
+function validaLogin()
+{
+    if (isset($_SESSION['login'])) {
+        header("Location: /Plataforma_Chamados/menu");
+        exit;
+    }
+}
+
+function VerificaSessao()
+{
+    if (!isset($_SESSION['id_usuario'])) {
+        header("Location: /Plataforma_Chamados/login");
+        exit;
+    }
 }
 
 ob_end_flush();

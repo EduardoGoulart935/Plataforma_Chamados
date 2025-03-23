@@ -23,9 +23,9 @@ class Anexos
         $query->bindParam(":arquivo_base64", $arquivoBase64);
         return $query->execute();
     }
-    public function buscarAnexos($id_chamado)
+    public function selectAnexos($id_chamado)
     {
-        $sql = "SELECT id, nome_arquivo, tipo_arquivo, data_upload FROM anexos WHERE id_chamado = :id_chamado";
+        $sql = "SELECT * FROM {$this->tableAnexos} WHERE id_chamado = :id_chamado";
         $query = $this->conn->prepare($sql);
         $query->bindParam(':id_chamado', $id_chamado, PDO::PARAM_INT);
         $query->execute();

@@ -43,7 +43,7 @@
             <label class="form-label">Contatos Telefônicos</label>
             <div id="contatos">
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" name="nome"  placeholder="Nome" required>
+                    <input type="text" class="form-control" name="nome" placeholder="Nome" required>
                     <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="Telefone" required>
                     <input type="text" class="form-control" name="observacao" placeholder="Observação">
                     <button type="button" class="btn btn-danger remove-contato">X</button>
@@ -52,11 +52,44 @@
             <button type="button" id="add-contato" class="btn btn-secondary">Adicionar Contato</button>
         </div>
 
-        <button type="submit" class="btn btn-primary">Abrir Chamado</button>
+        <button type="button" class="btn btn-primary" id="btn-abrir-chamado">Abrir Chamado</button>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
+        $(document).ready(function() {
+            $("#btn-abrir-chamado").click(function() {
+                let formData = new FormData($("form")[0]); // Captura os dados do formulário
+
+                $.ajax({
+                    url: './controllers/ChamadosController.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        try {
+                            let res = JSON.parse(response);
+                            if (res.status === "sucesso") {
+                                alert("Chamado cadastrado com sucesso!");
+                                location.reload(); // Recarregar a página se necessário
+                            } else {
+                                alert("Erro ao cadastrar chamado: " + res.mensagem);
+                            }
+                        } catch (error) {
+                            console.error("Erro no JSON:", response);
+                            alert("Erro inesperado.");
+                        }
+                    },
+                    error: function() {
+                        alert("Erro ao enviar o chamado.");
+                    }
+                });
+            });
+        });
+
         document.getElementById("add-contato").addEventListener("click", function() {
             const div = document.createElement("div");
             div.classList.add("input-group", "mb-2");

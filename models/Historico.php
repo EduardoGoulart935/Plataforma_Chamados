@@ -14,8 +14,8 @@ class Historico
 
     public function cadastroHistorico($chmdid, $descricao)
     {
-        $sql = "INSERT INTO {$this->tableHistorico} (id_chamado, id_usuario, descricao, data_hora
-            VALUES (:id_chamado, :id_usuario, :descricao, NOW()";
+        $sql = "INSERT INTO {$this->tableHistorico} (id_chamado, id_usuario, descricao, data_hora)
+            VALUES (:id_chamado, :id_usuario, :descricao, NOW())";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":id_chamado", $chmdid);
         $query->bindParam(":id_usuario", $_SESSION["usuario_id"]);

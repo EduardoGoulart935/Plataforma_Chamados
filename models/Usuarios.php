@@ -40,6 +40,7 @@ class Usuarios
 
         if ($info && password_verify($senha, $info['senha'])) {
             $_SESSION['id_usuario'] = $info['id'];
+            $_SESSION['login'] = true;
             return $info;
         }
         echo"Deu errado!";
