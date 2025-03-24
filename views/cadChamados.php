@@ -57,6 +57,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -115,6 +116,7 @@
         $(document).ready(function() {
             $('#telefone').inputmask('(99) 99999-9999');
         });
+    
     </script>
 </body>
 

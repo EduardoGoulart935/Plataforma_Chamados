@@ -124,7 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['estado'])) {
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
@@ -145,8 +144,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['estado'])) {
         (function() {
             'use strict';
             window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
+                var formulario = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(formulario, function(form) {
                     form.addEventListener('submit', function(event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();

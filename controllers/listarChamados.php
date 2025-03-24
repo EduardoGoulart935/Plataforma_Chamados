@@ -7,18 +7,20 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../models/Chamados.php';
 require_once __DIR__ . '/../models/Anexos.php';
 require_once __DIR__ . '/../models/Contatos.php';
+require_once __DIR__ . '/../models/historico.php';
 
 class ChamadosController
 {
     private $chamado;
     private $contato;
     private $anexo;
-
+    private $historico;
     public function __construct()
     {
         $this->chamado = new Chamados();
         $this->anexo = new Anexos();
         $this->contato = new Contatos();
+        $this->historico = new Historico();
     }
 
     public function listarChamados()
@@ -28,6 +30,7 @@ class ChamadosController
         foreach ($chamados as &$chamado) {
             $chamado['contatos'] = $this->contato->selectContatos($chamado['id']);
             $chamado['anexos'] = $this->anexo->selectAnexos($chamado['id']);
+            $chamado['historicos'] = $this->historico->selectHistorico($chamado['id']);
         }
 
         header('Content-Type: application/json');

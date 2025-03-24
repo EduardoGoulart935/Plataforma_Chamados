@@ -14,6 +14,33 @@
     <h2>Lista de Chamados</h2>
     <div id="chamados-container" class="row"></div>
 
+    <!-- Modal de Atualização -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Atualizar Chamado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="chamado-id">
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea id="descricao" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="arquivo" class="form-label">Adicionar Anexo</label>
+                        <input type="file" id="arquivo" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="atualizarChamado">Atualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             $.ajax({
@@ -21,10 +48,9 @@
                 method: 'GET',
                 data: {
                     action: 'listarChamados'
-                }, // Agora estamos passando action corretamente
+                },
                 dataType: 'json',
                 success: function(data) {
-                    console.log("Dados recebidos:", data); // Log para verificar o retorno
 
                     if (!Array.isArray(data)) {
                         console.error("Os dados não são um array:", data);
@@ -35,48 +61,69 @@
                     let html = '';
                     data.forEach(chamado => {
                         html += `
-                    <div class="col-md-4">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Chamado #${chamado.id}</h5>
-                                <p class="card-text">${chamado.descricao}</p>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal${chamado.id}">Detalhes</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="modal${chamado.id}" tabindex="-1" aria-labelledby="modalLabel${chamado.id}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel${chamado.id}">Detalhes do Chamado #${chamado.id}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h6>Contatos</h6>
-                                    <ul>
-                                        ${chamado.contatos && chamado.contatos.length > 0 
-                                            ? chamado.contatos.map(contato => `<li>${contato.nome} - ${contato.telefone}</li>`).join('')
-                                            : '<li>Nenhum contato disponível</li>'}
-                                    </ul>
-                                    <h6>Anexos</h6>
-                                    <ul>
-                                        ${chamado.anexos && chamado.anexos.length > 0 
-                                            ? chamado.anexos.map(anexo => `<li><a href="data:${anexo.data_upload};base64,${anexo.arquivo_base64}" download="${anexo.tipo_arquivo}">${anexo.nome_arquivo}</a></li>`).join('')
-                                            : '<li>Nenhum anexo disponível</li>'}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                    });
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Chamado #${chamado.id}</h5>
+                                        ${chamado.historicos && chamado.historicos.length > 0 
+                                                ? chamado.historicos.map(historico => `${historico.descricao}`).join('')
+                                                : '<li>Nenhum contato disponível</li>'}
+                                        <p class="card-text">${chamado.descricao}</p>
+                                        <button class="btn btn-primary update-btn" data-id="${chamado.id}" data-descricao="${chamado.historicos && chamado.historicos.length > 0 
+                                        ? chamado.historicos[chamado.historicos.length - 1].descricao : ''}" data-bs-toggle="modal" data-bs-target="#updateModal"> Atualizar </button>
 
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
                     $('#chamados-container').html(html);
                 },
-                error: function(xhr, status, error) {
-                    console.error("Erro na requisição:", status, error);
+                error: function() {
                     $('#chamados-container').html('<p class="text-danger">Erro ao carregar chamados.</p>');
                 }
+            });
+
+            $(document).on('click', '.update-btn', function() {
+                let id = $(this).data('id');
+                let descricao = $(this).data('descricao');
+                $('#chamado-id').val(id);
+                $('#descricao').val(descricao);
+            });
+
+            $('#atualizarChamado').click(function() {
+                let id_chamado = $('#chamado-id').val();
+                let nova_descricao = $('#descricao').val();
+                let arquivo = $('#arquivo')[0].files.length > 0 ? $('#arquivo')[0].files[0] : null;
+                let formData = new FormData();
+                formData.append('id_chamado', id_chamado);
+                formData.append('nova_descricao', nova_descricao);
+                formData.append('action', 'atualizarChamado');
+
+                if (arquivo) {
+                    formData.append('arquivo', arquivo);
+                }
+
+                $.ajax({
+                    url: './controllers/atualizarChamados.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        try {
+                            let json = JSON.parse(response);
+                            alert(json.mensagem);
+                            $('#updateModal').modal('hide');
+                            window.location.reload();
+                        } catch (e) {
+                            console.error("Erro ao processar resposta:", response);
+                            alert("Erro ao atualizar chamado.");
+                        }
+                    },
+                    error: function() {
+                        alert('Erro ao atualizar chamado.');
+                    }
+                });
             });
         });
     </script>
