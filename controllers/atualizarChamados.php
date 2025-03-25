@@ -26,7 +26,6 @@ class AtualizarController
             $id_chamado = $_POST["id_chamado"];
             $novaDescricao = htmlspecialchars($_POST["nova_descricao"], ENT_QUOTES, 'UTF-8');
 
-            // Atualizar histórico primeiro, independentemente do anexo
 
             if ( $this->historico->updateHistorico($id_chamado, $novaDescricao )=== false) {
                 error_log("Erro ao atualizar histórico para o chamado ID: $id_chamado");

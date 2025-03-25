@@ -21,7 +21,7 @@ class UsuariosController
             $whatsapp = htmlspecialchars($_POST["whatsapp"], ENT_QUOTES, 'UTF-8');
             $senha =    htmlspecialchars($_POST["senha"], ENT_QUOTES, 'UTF-8');
             $cidade =   htmlspecialchars($_POST["cidade"], ENT_QUOTES, 'UTF-8');
-            $estado =   htmlspecialchars($_POST["estado"], ENT_QUOTES, 'UTF-8');;
+            $estado =   htmlspecialchars($_POST["estado"], ENT_QUOTES, 'UTF-8');
 
             if (
                 $this->usuario->cadastro($nome, $data_nascimento, $email, $telefone, $whatsapp, $senha, $cidade, $estado)
@@ -38,18 +38,17 @@ class UsuariosController
 
     public function login()
     {
-            
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
             $senha = htmlspecialchars($_POST["senha"], ENT_QUOTES, 'UTF-8');
 
             $usuario = $this->usuario->login($email, $senha);
-            if ($usuario) {    
+            if ($usuario) {
                 header("Location: /Plataforma_Chamados/menu");
-                echo "Login bem-sucedido! ID do usuário: " . $_SESSION['id_usuario'];
-                exit; 
+                exit;
             } else {
-                echo "Credenciais inválidas";
+                echo "<script>alert('E-mail ou senha incorretos. Tente novamente.');</script>";
+                header("Location: /Plataforma_Chamados/login");
             }
         }
     }
@@ -57,10 +56,6 @@ class UsuariosController
 
 $controller = new UsuariosController();
 if (isset($_POST["action"])) {
-    if ($_POST["action"] === "cadastrar") {
-        $controller->cadastrarUsuarios();
-
-    }
     if ($_POST["action"] === "login") {
         $controller->login();
     }

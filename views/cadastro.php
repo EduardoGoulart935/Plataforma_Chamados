@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['estado'])) {
         <div class="card shadow p-4" style="width: 550px;">
             <h2 class="text-center mb-4">Cadastro</h2>
             <br>
-            <form action="./controllers/UsuariosController.php" method="POST" class="needs-validation" novalidate>
+            <form action="./controllers/EmailController.php" method="POST" class="needs-validation" novalidate>
                 <input type="hidden" name="action" value="cadastrar">
 
                 <div class="row">

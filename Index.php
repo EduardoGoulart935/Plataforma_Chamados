@@ -27,6 +27,10 @@ switch ($url[2] ?? 'login') {
         validaLogin();
         include 'views/cadastro.php';
         break;
+    
+    case 'verificao_email':
+    include 'views/verificacao_email.php';
+    break;
 
     case 'verChamados':
         VerificaSessao();

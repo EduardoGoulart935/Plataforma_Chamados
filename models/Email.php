@@ -14,7 +14,7 @@ class Email
     }
 
     public function verificarEmail($email) {
-        $sql = "SELECT * FROM {$this->tableEmail} WHERE email = :email";
+        $sql = "SELECT * FROM {$this->tableEmail} WHERE email_destino = :email";
         $query = $this->conn->prepare($sql);
         $query->bindParam(":email", $email);
         $query->execute();
@@ -26,11 +26,10 @@ class Email
         return false;
     }
 
-    public function salvarCodigoVerificacao($id_usuario, $email, $codigo) {
-        $sql = "INSERT INTO {$this->tableEmail} (id_usuario, email_destino, codigo_verificacao) 
-                VALUES (:id_usuario, :email_destino, :codigo_verificacao)";
+    public function salvarCodigoVerificacao( $email, $codigo) {
+        $sql = "INSERT INTO {$this->tableEmail} ( email_destino, codigo_verificacao) 
+                VALUES (:email_destino, :codigo_verificacao)";
         $query = $this->conn->prepare($sql);
-        $query->bindParam(":id_usuario", $id_usuario);
         $query->bindParam(":email_destino", $email);  
         $query->bindParam(":codigo_verificacao", $codigo);
         $query->execute();

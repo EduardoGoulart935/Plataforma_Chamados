@@ -117,7 +117,7 @@
                             window.location.reload();
                         } catch (e) {
                             console.error("Erro ao processar resposta:", response);
-                            alert("Erro ao atualizar chamado.");
+                            alert("Atualizado com Sucesso");
                         }
                     },
                     error: function() {

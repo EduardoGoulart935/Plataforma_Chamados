@@ -76,7 +76,6 @@ CREATE TABLE `contatos_chamado` (
 
 CREATE TABLE `emails_enviados` (
   `id` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
   `email_destino` varchar(255) NOT NULL,
   `codigo_verificacao` varchar(6) NOT NULL,
   `data_envio` timestamp NOT NULL DEFAULT current_timestamp()
@@ -144,8 +143,7 @@ ALTER TABLE `contatos_chamado`
 -- Índices de tabela `emails_enviados`
 --
 ALTER TABLE `emails_enviados`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `historico_chamado`
@@ -223,12 +221,6 @@ ALTER TABLE `chamados`
 --
 ALTER TABLE `contatos_chamado`
   ADD CONSTRAINT `contatos_chamado_ibfk_1` FOREIGN KEY (`id_chamado`) REFERENCES `chamados` (`id`) ON DELETE CASCADE;
-
---
--- Restrições para tabelas `emails_enviados`
---
-ALTER TABLE `emails_enviados`
-  ADD CONSTRAINT `emails_enviados_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `historico_chamado`
