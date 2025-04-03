@@ -6,7 +6,6 @@
 -- Tempo de geração: 09/03/2025 às 23:35
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
-DROP DATABASE chamados_ti;
 CREATE DATABASE chamados_ti;
 USE chamados_ti;
 
